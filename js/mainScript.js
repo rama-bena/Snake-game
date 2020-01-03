@@ -31,9 +31,9 @@ let score = 0;
 
 
 // arak gerak ular
-let d = "atas";
+let d = "";
 let kondisi = "aman";
-
+let game = setInterval(draw,200);
 
 function direction(event){
     if(event.keyCode == 37 && d != "kanan"){
@@ -52,7 +52,7 @@ function direction(event){
 
 
 //gambar background
-let game = setInterval(draw,300);
+
 var text = "ganti";
 var tulis = document.getElementById("p");
 var makan = document.getElementById("makanan");
@@ -85,11 +85,14 @@ function draw(){
         ctx.strokeStyle = "red";
         ctx.strokeRect(snake[i].x, snake[i].y, box, box);
     }
-    ctx.drawImage(foodImg, food.x, food.y);
     
+    // tulis makanan
+    spawnFood();
+
     //tulis score
     ctx.fillStyle = "white";
     ctx.font = "45px Changa one";
+    score = snake.length-1;
     ctx.fillText(score, 2*box, 1.7*box);
     
     // text += snake.length + "<br>";
@@ -118,6 +121,7 @@ function draw(){
         snake.unshift(newHead);
     }
     else if(kondisi == "makan"){
+        newFood();
         snake.unshift(newHead);
     }
     else{
@@ -135,4 +139,14 @@ function cekKondisi(){
     else{
         return "aman";
     }
+}
+
+function spawnFood(){
+    ctx.drawImage(foodImg, food.x, food.y);
+}
+
+function newFood(){
+
+    food.x = Math.floor(Math.random() * 17 + 1) * box;
+    food.y = Math.floor(Math.random() * 15 + 3) * box;
 }
